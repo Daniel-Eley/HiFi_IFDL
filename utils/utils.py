@@ -161,7 +161,7 @@ def restore_weight_helper(model, model_dir, initial_epoch):
     '''load model given the model_dir that has the model weights.'''
     try:
         weight_path = '{}/{}.pth'.format(model_dir, initial_epoch)
-        state_dict = torch.load(weight_path, map_location='cuda:0')['model']
+        state_dict = torch.load(weight_path, map_location=torch.device('cpu'))['model']
         model.load_state_dict(state_dict)
         print('{} weight-loading succeeds: {}'.format(model_dir, weight_path))
     except:
@@ -175,7 +175,7 @@ def restore_optimizer(optimizer, model_dir):
     '''restore the optimizer.'''
     try:
         weight_path = '{}/{}.pth'.format(model_dir, initial_epoch)
-        state_dict = torch.load(weight_path, map_location='cuda:0')
+        state_dict = torch.load(weight_path, map_location=torch.device('cpu'))['model']
         print('Optimizer weight-loading succeeds.')
         optimizer.load_state_dict(state_dict['optimizer'])
     except:

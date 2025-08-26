@@ -26,16 +26,17 @@ import torch
 import torch.nn as nn
 import argparse
 import numpy as np
+import torch
+device = torch.device('cpu')
 
-device = torch.device('cuda:0')
-device_ids = [0]
+#device_ids = [0]
 
 def config(args):
     '''Set up input configurations.'''
     args.crop_size = [args.crop_size, args.crop_size]
     # cuda_list = args.list_cuda
     global device 
-    device = torch.device('cuda:0')
+    device = torch.device('cpu')
     # global device_ids
     # device_ids = device_ids_return(cuda_list)
 
@@ -45,8 +46,8 @@ def config(args):
     FENet  = get_seg_model(FENet_cfg).to(device) # load the pre-trained model inside.
     SegNet = NLCDetection().to(device)
 
-    FENet  = nn.DataParallel(FENet, device_ids=device_ids)
-    SegNet = nn.DataParallel(SegNet, device_ids=device_ids)
+    #FENet  = nn.DataParallel(FENet, device_ids=device_ids)
+    #SegNet = nn.DataParallel(SegNet, device_ids=device_ids)
 
     writer = None
 

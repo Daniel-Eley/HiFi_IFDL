@@ -393,7 +393,7 @@ class HighResolutionNet(nn.Module):
         self.stage4, pre_stage_channels = self._make_stage(
             self.stage4_cfg, num_channels, multi_scale_output=True)
 
-        last_inp_channels = np.int(np.sum(pre_stage_channels))
+        last_inp_channels = int(np.sum(pre_stage_channels))
 
     ## GX: one dimension matrix converts pre to pos.
     ## GX: if channel numbers are equal, pass it directly.
@@ -535,7 +535,7 @@ class HighResolutionNet(nn.Module):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
         if os.path.isfile(pretrained):
-            pretrained_dict = torch.load(pretrained)    
+            pretrained_dict = torch.load(pretrained, map_location=torch.device('cpu'))
             ## GX: official pre-trained dict.
             print('=> loading HRNet pretrained model {}'.format(pretrained))
             model_dict = self.state_dict()  

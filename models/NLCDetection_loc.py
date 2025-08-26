@@ -8,6 +8,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from models.seg_hrnet_config import get_cfg_defaults
 import time
+import torch
+
+device = torch.device('cpu')
 
 def weights_init(init_type='gaussian'):
     def init_fun(m):
@@ -265,8 +268,8 @@ class NLCDetection(nn.Module):
     def __init__(self):
         super(NLCDetection, self).__init__()
         self.crop_size = (256, 256)
-        self.split_tensor_1 = torch.tensor([1, 3]).cuda()
-        self.split_tensor_2 = torch.tensor([1, 2, 1, 3]).cuda()
+        self.split_tensor_1 = torch.tensor([1, 3]).to(device)
+        self.split_tensor_2 = torch.tensor([1, 2, 1, 3]).to(device)
         self.softmax_m = nn.Softmax(dim=1)
         FENet_cfg = get_cfg_defaults()
         feat1_num, feat2_num, feat3_num, feat4_num = FENet_cfg['STAGE4']['NUM_CHANNELS']

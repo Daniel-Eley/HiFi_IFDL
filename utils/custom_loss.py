@@ -139,10 +139,10 @@ def load_center_radius(args, FENet, SegNet, train_data_loader, center_radius_dir
 	'''loading the pre-computed center and radius.'''
 	center_radius_path = os.path.join(center_radius_dir, 'radius_center.pth')
 	if os.path.exists(center_radius_path):
-		load_dict_center_radius = torch.load(center_radius_path)
+		load_dict_center_radius = torch.load(center_radius_path, map_location=torch.device('cpu'))
 		center = load_dict_center_radius['center']
 		radius = load_dict_center_radius['radius']
-		center, radius = center.to(device), radius.to(device)
+		center, radius = center.to(torch.device('cpu')), radius.to(torch.device('cpu'))
 	else:
 		os.makedirs(center_radius_dir, exist_ok=True)
 		center, radius = center_radius_init(args, FENet, SegNet, train_data_loader, debug=True)
@@ -152,8 +152,8 @@ def load_center_radius(args, FENet, SegNet, train_data_loader, center_radius_dir
 def load_center_radius_api(center_radius_dir='center'):
 	'''loading the pre-computed center and radius.'''
 	center_radius_path = os.path.join(center_radius_dir, 'radius_center.pth')
-	load_dict_center_radius = torch.load(center_radius_path)
+	load_dict_center_radius = torch.load(center_radius_path, map_location=torch.device('cpu'))
 	center = load_dict_center_radius['center']
 	radius = load_dict_center_radius['radius']
-	center, radius = center.to(device), radius.to(device)
+	center, radius = center.to(torch.device('cpu')), radius.to(torch.device('cpu'))
 	return center, radius
